@@ -1,0 +1,7 @@
+# editor swap / undo files
+*~
+*.un~
+.*.swp
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+{
+  "name": "fm-plugins",
+  "description": "株式会社FREEMIND 社内向け Claude Code プラグインマーケットプレイス",
+  "owner": { "name": "株式会社FREEMIND" },
+  "plugins": [
+    {
+      "name": "hello",
+      "source": "./plugins/hello",
+      "description": "fm-plugins の導入確認用サンプルプラグイン。/hello:hello で動作を確認する"
+    }
+  ]
+}
