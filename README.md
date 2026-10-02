@@ -35,24 +35,6 @@ claude plugin marketplace update fm-plugins   # マーケットプレイス定�
 claude plugin update hello@fm-plugins         # プラグインを最新化（再起動で反映）
 ```
 
-## リポジトリ公開前の暫定手順（作成者向け）
-
-`koo-inc/fm-claude-plugins` が作成される前は、ローカルのクローンをマーケットプレイスとして追加できます。
-
-```bash
-claude plugin marketplace add /home/yodai/fm-claude-plugins
-claude plugin install hello@fm-plugins
-```
-
-GitHub 側が使えるようになったら、ローカル版を外して GitHub 版に付け替えます。
-
-```bash
-claude plugin uninstall hello@fm-plugins
-claude plugin marketplace remove fm-plugins
-claude plugin marketplace add koo-inc/fm-claude-plugins
-claude plugin install hello@fm-plugins
-```
-
 ## プラグインを追加する
 
 1. `plugins/<name>/` を作り、`.claude-plugin/plugin.json`（`name` と `version` は必須にする）と `skills/<skill>/SKILL.md` などを置く。`plugins/hello/` をコピーして書き換えるのが早い
@@ -69,8 +51,30 @@ claude plugin install hello@fm-plugins
    claude plugin validate --strict plugins/<name>    # プラグイン
    ```
 
-4. 既存プラグインを変更したときは、その `plugin.json` の `version` を上げる（利用者の `claude plugin update` はこの値で更新を判断する）
-5. PR を作成する
+4. 作業コピーからインストールして動作を確認する（次節）
+5. 既存プラグインを変更したときは、その `plugin.json` の `version` を上げる（利用者の `claude plugin update` はこの値で更新を判断する）
+6. ブランチを切って PR を作成する。`main` の最新コミットがそのまま利用者に配布されるため、`main` へ直接 push しない
+
+### 作業コピーで動作確認する
+
+push 前に、手元のクローンをそのままマーケットプレイスとして登録して確認できます。マーケットプレイス名が同じ `fm-plugins` になるため GitHub 版と同時には登録できず、確認中は一時的に付け替えます。
+
+```bash
+# GitHub 版 → 作業コピー
+claude plugin marketplace remove fm-plugins
+claude plugin marketplace add "$PWD"            # リポジトリ直下で実行
+claude plugin install <name>@fm-plugins
+```
+
+Claude Code を再起動（または `/reload-plugins`）して `/<name>:<skill>` を実行し、期待どおり動くことを確認します。終わったら GitHub 版に戻します。
+
+```bash
+# 作業コピー → GitHub 版
+claude plugin uninstall <name>@fm-plugins
+claude plugin marketplace remove fm-plugins
+claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin install <name>@fm-plugins
+```
 
 ### 守ること
 
@@ -78,21 +82,47 @@ claude plugin install hello@fm-plugins
 - トップレベルに `bin/` を置かない（同上）
 - private リポジトリでも、トークンや鍵などの秘密情報はコミットしない
 
-## Org Owner への依頼事項
+## 初期セットアップ（リポジトリ作成まで）
 
-作成者（fm-yodai）は `koo-inc` の member でリポジトリ作成権限がありません。次を依頼してください。
+`koo-inc/fm-claude-plugins` が GitHub 上にできるまでの一回限りの手順です。完了したらこの節は削除してください。
 
-1. `koo-inc/fm-claude-plugins` を **private** で作成する（README や .gitignore は生成しない）
-2. 作成者に **Write 以上**の権限を付与する
-3. 利用者となるメンバーが Read できることを確認する（Org メンバー全員なら base permission が Read 以上か）
+作成者（fm-yodai）は `koo-inc` の member で、Org 設定上メンバーはリポジトリを作成できません（private も不可）。
 
-作成後、作成者が次を実行して初回 push します。
+### 1. Org Owner に依頼する
+
+1. `koo-inc/fm-claude-plugins` を **private** で作成する（README / .gitignore / LICENSE は生成せず空のまま。`gh repo create koo-inc/fm-claude-plugins --private` でも可）
+2. 作成者に **Write 以上**の権限を付与する（`main` のブランチ保護まで作成者に任せる場合は Admin）
+3. 利用者となるメンバーが Read できることを確認する（Org の base permission が Read 以上か、該当チームに Read を付与）
+
+### 2. 初回 push（作成者）
 
 ```bash
 cd ~/fm-claude-plugins
 git remote add origin git@github.com:koo-inc/fm-claude-plugins.git
 git push -u origin main
+gh repo view koo-inc/fm-claude-plugins
 ```
+
+SSH で弾かれる場合は `git remote set-url origin https://github.com/koo-inc/fm-claude-plugins.git` に切り替え、`gh auth setup-git` で gh の認証を git に使わせます。
+
+### 3. ローカルを GitHub 版に付け替えて確認（作成者）
+
+作成者の環境では作業コピーが `fm-plugins` として登録されているので、GitHub 版に付け替えて配布経路を確認します。
+
+```bash
+claude plugin uninstall hello@fm-plugins
+claude plugin marketplace remove fm-plugins
+claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin install hello@fm-plugins
+```
+
+Claude Code を再起動して `/hello:hello` が動けば、GitHub 経由の配布が成立しています。
+
+### 4. 仕上げ
+
+- 社内メンバーに「導入」節のコマンドを案内する
+- 可能なら `main` にブランチ保護（PR 必須）を設定する
+- この節を削除する
 
 ## 今後の拡張
 
