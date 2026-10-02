@@ -4,10 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## このリポジトリについて
 
-株式会社FREEMIND 社内向けの Claude Code プラグインマーケットプレイス `fm-plugins`。GitHub の private リポジトリ `koo-inc/fm-claude-plugins` がそのまま配布元で、利用者は次のコマンドで導入する。
+株式会社FREEMIND 社内向けの Claude Code プラグインマーケットプレイス `fm-plugins`。GitHub の private リポジトリ `koo-inc/fm-plugins` がそのまま配布元で、利用者は次のコマンドで導入する。
 
 ```bash
-claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin marketplace add koo-inc/fm-plugins
 claude plugin install <name>@fm-plugins
 ```
 
@@ -48,7 +48,7 @@ claude plugin details <name>@fm-plugins              # skills にコンポーネ
 ```bash
 claude plugin uninstall <name>@fm-plugins
 claude plugin marketplace remove fm-plugins
-claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin marketplace add koo-inc/fm-plugins
 claude plugin install <name>@fm-plugins
 ```
 
@@ -79,7 +79,7 @@ claude plugin install <name>@fm-plugins
 
 - プラグインは必ずこのリポジトリ内 `plugins/<name>/` に置き、相対パスで参照する。外部リポジトリや URL 参照にしない
 - トップレベルに `bin/` を置かない
-- `plugin.json` の `repository` は `https://github.com/koo-inc/fm-claude-plugins` に揃える
+- `plugin.json` の `repository` は `https://github.com/koo-inc/fm-plugins` に揃える
 
 スコープと表記:
 

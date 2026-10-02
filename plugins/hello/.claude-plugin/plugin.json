@@ -3,6 +3,6 @@
   "version": "0.1.0",
   "description": "fm-plugins マーケットプレイスの導入確認用サンプルプラグイン",
   "author": { "name": "株式会社FREEMIND" },
-  "repository": "https://github.com/koo-inc/fm-claude-plugins",
+  "repository": "https://github.com/koo-inc/fm-plugins",
   "keywords": ["sample", "smoke-test"]
 }

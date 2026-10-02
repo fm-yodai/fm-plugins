@@ -1,4 +1,4 @@
-# fm-claude-plugins
+# fm-plugins
 
 株式会社FREEMIND 社内向けの **Claude Code プラグインマーケットプレイス** です。マーケットプレイス名は `fm-plugins` で、プラグインは `プラグイン名@fm-plugins` の形で指定します。
 
@@ -11,12 +11,12 @@
 ## 前提
 
 - Claude Code がインストール済みで、Anthropic Team プランのアカウントでログインしていること
-- GitHub Organization `koo-inc` の private リポジトリに **git でアクセスできる**こと。Claude Code はあなたの git 認証（SSH 鍵、または HTTPS の credential helper）をそのまま使います。`git clone git@github.com:koo-inc/fm-claude-plugins.git` が通れば大丈夫です
+- GitHub Organization `koo-inc` の private リポジトリに **git でアクセスできる**こと。Claude Code はあなたの git 認証（SSH 鍵、または HTTPS の credential helper）をそのまま使います。`git clone git@github.com:koo-inc/fm-plugins.git` が通れば大丈夫です
 
 ## 導入
 
 ```bash
-claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin marketplace add koo-inc/fm-plugins
 claude plugin install hello@fm-plugins
 ```
 
@@ -72,7 +72,7 @@ Claude Code を再起動（または `/reload-plugins`）して `/<name>:<skill>
 # 作業コピー → GitHub 版
 claude plugin uninstall <name>@fm-plugins
 claude plugin marketplace remove fm-plugins
-claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin marketplace add koo-inc/fm-plugins
 claude plugin install <name>@fm-plugins
 ```
 
@@ -84,26 +84,26 @@ claude plugin install <name>@fm-plugins
 
 ## 初期セットアップ（リポジトリ作成まで）
 
-`koo-inc/fm-claude-plugins` が GitHub 上にできるまでの一回限りの手順です。完了したらこの節は削除してください。
+`koo-inc/fm-plugins` が GitHub 上にできるまでの一回限りの手順です。完了したらこの節は削除してください。
 
 作成者（fm-yodai）は `koo-inc` の member で、Org 設定上メンバーはリポジトリを作成できません（private も不可）。
 
 ### 1. Org Owner に依頼する
 
-1. `koo-inc/fm-claude-plugins` を **private** で作成する（README / .gitignore / LICENSE は生成せず空のまま。`gh repo create koo-inc/fm-claude-plugins --private` でも可）
+1. `koo-inc/fm-plugins` を **private** で作成する（README / .gitignore / LICENSE は生成せず空のまま。`gh repo create koo-inc/fm-plugins --private` でも可）
 2. 作成者に **Write 以上**の権限を付与する（`main` のブランチ保護まで作成者に任せる場合は Admin）
 3. 利用者となるメンバーが Read できることを確認する（Org の base permission が Read 以上か、該当チームに Read を付与）
 
 ### 2. 初回 push（作成者）
 
 ```bash
-cd ~/fm-claude-plugins
-git remote add origin git@github.com:koo-inc/fm-claude-plugins.git
+cd ~/fm-plugins
+git remote add origin git@github.com:koo-inc/fm-plugins.git
 git push -u origin main
-gh repo view koo-inc/fm-claude-plugins
+gh repo view koo-inc/fm-plugins
 ```
 
-SSH で弾かれる場合は `git remote set-url origin https://github.com/koo-inc/fm-claude-plugins.git` に切り替え、`gh auth setup-git` で gh の認証を git に使わせます。
+SSH で弾かれる場合は `git remote set-url origin https://github.com/koo-inc/fm-plugins.git` に切り替え、`gh auth setup-git` で gh の認証を git に使わせます。
 
 ### 3. ローカルを GitHub 版に付け替えて確認（作成者）
 
@@ -112,7 +112,7 @@ SSH で弾かれる場合は `git remote set-url origin https://github.com/koo-i
 ```bash
 claude plugin uninstall hello@fm-plugins
 claude plugin marketplace remove fm-plugins
-claude plugin marketplace add koo-inc/fm-claude-plugins
+claude plugin marketplace add koo-inc/fm-plugins
 claude plugin install hello@fm-plugins
 ```
 
